@@ -1,0 +1,59 @@
+--- SUMMARY ---
+
+==29627== NVPROF is profiling process 29627, command: ./Lorenz.exe
+==29627== Profiling application: ./Lorenz.exe
+==29627== Profiling result:
+            Type  Time(%)      Time     Calls       Avg       Min       Max  Name
+ GPU activities:   92.37%  461.89us         1  461.89us  461.89us  461.89us  void SingleSystem_PerThread<int=1536, int=3, int=1, int=0, int=0, int=0, int=0, int=0, int=0, Algorithms=0, double>(Struct_ThreadConfiguration, Struct_GlobalVariables<double>, Struct_SharedMemoryUsage, Struct_SolverOptions<double>)
+                    4.73%  23.648us        11  2.1490us     864ns  5.4400us  [CUDA memcpy HtoD]
+                    2.91%  14.528us         5  2.9050us  1.7280us  4.2560us  [CUDA memcpy DtoH]
+No API activities were profiled.
+
+
+--- SPECIFIC METRICS AND EVENTS ---
+
+======== Warning: Skipping profiling on device 0 since profiling is not supported on devices with compute capability greater than 7.2
+==29653== NVPROF is profiling process 29653, command: ./Lorenz.exe
+==29653== Some kernel(s) will be replayed on device 1 in order to collect all events/metrics.
+==29653== Profiling application: ./Lorenz.exe
+==29653== Profiling result:
+==29653== Event result:
+Invocations                                Event Name         Min         Max         Avg       Total
+Device "GeForce GTX TITAN Black (1)"
+    Kernel: void SingleSystem_PerThread<int=1536, int=3, int=1, int=0, int=0, int=0, int=0, int=0, int=0, Algorithms=0, double>(Struct_ThreadConfiguration, Struct_GlobalVariables<double>, Struct_SharedMemoryUsage, Struct_SolverOptions<double>)
+          1                         elapsed_cycles_sm     6246024     6246024     6246024     6246024
+          1                             active_cycles     6088348     6088348     6088348     6088348
+
+==29653== Metric result:
+Invocations                               Metric Name                                Metric Description         Min         Max         Avg
+Device "GeForce GTX TITAN Black (1)"
+    Kernel: void SingleSystem_PerThread<int=1536, int=3, int=1, int=0, int=0, int=0, int=0, int=0, int=0, Algorithms=0, double>(Struct_ThreadConfiguration, Struct_GlobalVariables<double>, Struct_SharedMemoryUsage, Struct_SolverOptions<double>)
+          1                             sm_efficiency                           Multiprocessor Activity      97.48%      97.48%      97.48%
+          1                        achieved_occupancy                                Achieved Occupancy    0.049998    0.049998    0.049998
+          1                  eligible_warps_per_cycle                   Eligible Warps Per Active Cycle    1.057104    1.057104    1.057104
+          1                     local_load_throughput                      Local Memory Load Throughput  0.00000B/s  0.00000B/s  0.00000B/s
+          1                    local_store_throughput                     Local Memory Store Throughput  0.00000B/s  0.00000B/s  0.00000B/s
+          1                                       ipc                                      Executed IPC    0.505136    0.505136    0.505136
+          1                                issued_ipc                                        Issued IPC    0.946810    0.946810    0.946810
+          1                         flop_count_dp_add   Floating Point Operations(Double Precision Add)    12288000    12288000    12288000
+          1                         flop_count_dp_mul   Floating Point Operations(Double Precision Mul)    13824000    13824000    13824000
+          1                         flop_count_dp_fma   Floating Point Operations(Double Precision FMA)    47616000    47616000    47616000
+          1                              inst_integer                              Integer Instructions    12309504    12309504    12309504
+          1                              inst_control                         Control-Flow Instructions     3072000     3072000     3072000
+          1                        inst_compute_ld_st                           Load/Store Instructions       24576       24576       24576
+          1                                 inst_misc                                 Misc Instructions     4617216     4617216     4617216
+          1                        flop_dp_efficiency                      FLOP Efficiency(Peak Double)      15.18%      15.18%      15.18%
+          1                     l1_shared_utilization                      L1/Shared Memory Utilization     Low (1)     Low (1)     Low (1)
+          1                            l2_utilization                              L2 Cache Utilization     Low (1)     Low (1)     Low (1)
+          1                          dram_utilization                         Device Memory Utilization     Low (1)     Low (1)     Low (1)
+          1                       ldst_fu_utilization              Load/Store Function Unit Utilization     Low (1)     Low (1)     Low (1)
+          1                        alu_fu_utilization              Arithmetic Function Unit Utilization     Mid (4)     Mid (4)     Mid (4)
+          1                           stall_pipe_busy                   Issue Stall Reasons (Pipe Busy)       2.31%       2.31%       2.31%
+          1                     stall_exec_dependency        Issue Stall Reasons (Execution Dependency)      70.01%      70.01%      70.01%
+          1                   stall_memory_dependency                Issue Stall Reasons (Data Request)       0.05%       0.05%       0.05%
+          1                          stall_inst_fetch          Issue Stall Reasons (Instructions Fetch)      21.43%      21.43%      21.43%
+          1                        stall_not_selected                Issue Stall Reasons (Not Selected)       5.93%       5.93%       5.93%
+          1                     stall_memory_throttle             Issue Stall Reasons (Memory Throttle)       0.13%       0.13%       0.13%
+          1                               stall_other                       Issue Stall Reasons (Other)       0.00%       0.00%       0.00%
+
+
