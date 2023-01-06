@@ -5,7 +5,7 @@ using CUDA
 @show ARGS
 #settings
 
-numberOfParameters = isinteractive() ? 10000000 : parse(Int64, ARGS[1])
+numberOfParameters = isinteractive() ? 8388608 : parse(Int64, ARGS[1])
 gpuID = 0
 
 device!(CuDevice(gpuID))
@@ -46,11 +46,13 @@ end
 probs = cu(probs)
 
 @info "Solving the problem"
-data = @benchmark @CUDA.sync DiffEqGPU.vectorized_solve($probs, $ensembleProb.prob, GPUSimpleTsit5();
+data = @benchmark @CUDA.sync DiffEqGPU.vectorized_solve($probs, $ensembleProb.prob, GPUTsit5();
 save_everystep = false, dt = 0.001f0)
 
-open(joinpath(dirname(@__DIR__),"data","Julia_times_unadaptive.txt"), "a+") do io
-    println(io,numberOfParameters," ",minimum(data.times)/1e6)
+if !isinteractive()
+    open(joinpath(dirname(@__DIR__),"data","Julia_times_unadaptive.txt"), "a+") do io
+        println(io,numberOfParameters," ",minimum(data.times)/1e6)
+    end
 end
 
 
@@ -59,12 +61,13 @@ println("Minimum time: "*string(minimum(data.times)/1e6)*" ms")
 println("Allocs: "*string(data.allocs))
 
 
-data = @benchmark @CUDA.sync DiffEqGPU.vectorized_asolve($probs, $ensembleProb.prob, GPUSimpleATsit5();
+data = @benchmark @CUDA.sync DiffEqGPU.vectorized_asolve($probs, $ensembleProb.prob, GPUTsit5();
 dt = 0.001f0,reltol = 1f-8,abstol=1f-8)
 
-
-open(joinpath(dirname(@__DIR__),"data","Julia_times_adaptive.txt"), "a+") do io
-    println(io,numberOfParameters," ",minimum(data.times)/1e6)
+if !isinteractive()
+    open(joinpath(dirname(@__DIR__),"data","Julia_times_adaptive.txt"), "a+") do io
+        println(io,numberOfParameters," ",minimum(data.times)/1e6)
+    end
 end
 
 println("Parameter number: "*string(numberOfParameters))

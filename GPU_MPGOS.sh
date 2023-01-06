@@ -1,5 +1,5 @@
-a=10
-max_a=$((10**7))
+a=8
+max_a=$((2**24))
 while [ $a -lt $max_a ]
 do
     	# Print the values
@@ -10,5 +10,5 @@ do
 	make --directory=./GPU_MPGOS/
 	./GPU_MPGOS/Lorenz.exe $a
     	# increment the value
-    	a=$((a*10))
+    	a=$((a*4))
 done

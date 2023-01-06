@@ -1,4 +1,5 @@
-INCL_DIR = -I$(HOME)/ode_solver_tests/Lorenz_RK4/GPU_MPGOS/SourceCodes
+ROOT_DIR = $(shell dirname $(realpath $(firstword $(MAKEFILE_LIST))))
+INCL_DIR = -I$(ROOT_DIR)/SourceCodes
 CMPL_OPT = -O3 -std=c++11 --ptxas-options=-v --gpu-architecture=sm_70 -lineinfo -maxrregcount=64
 SOURCE   = Lorenz.cu
 

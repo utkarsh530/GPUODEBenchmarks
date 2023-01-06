@@ -12,9 +12,9 @@
 using namespace std;
 
 // Solver Configuration
-#define SOLVER RKCK45      // RK4, RKCK45
-#define PRECISION double  // float, double
-const int NT = 1000000;
+#define SOLVER RK4      // RK4, RKCK45
+#define PRECISION float  // float, double
+const int NT = 8388608;
 const int SD   = 3;     // SystemDimension
 const int NCP  = 1;     // NumberOfControlParameters
 const int NSP  = 0;     // NumberOfSharedParameters
