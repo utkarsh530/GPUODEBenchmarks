@@ -120,9 +120,9 @@ void FillSolverObject(ProblemSolver<NT,SD,NCP,NSP,NISP,NE,NA,NIA,NDO,SOLVER,PREC
 		Solver.SetHost(ProblemNumber, TimeDomain,  0, 0 );
 		Solver.SetHost(ProblemNumber, TimeDomain,  1, 0.001*1000.0 );
 		
-		Solver.SetHost(ProblemNumber, ActualState, 0, 10.0 );
-		Solver.SetHost(ProblemNumber, ActualState, 1, 10.0 );
-		Solver.SetHost(ProblemNumber, ActualState, 2, 10.0 );
+		Solver.SetHost(ProblemNumber, ActualState, 0, 1.0 );
+		Solver.SetHost(ProblemNumber, ActualState, 1, 0.0 );
+		Solver.SetHost(ProblemNumber, ActualState, 2, 0.0 );
 		
 		Solver.SetHost(ProblemNumber, ControlParameters, 0, R_Values[k] );
 		

@@ -20,7 +20,7 @@ numberOfParameters = int(sys.argv[1])
 # In[2]:
 
 
-from matplotlib import pyplot as  plt
+# from matplotlib import pyplot as  plt
 
 
 # In[3]:
