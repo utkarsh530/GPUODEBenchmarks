@@ -148,6 +148,30 @@ p_all = [p_nn; myparameters.Δ; myparameters.Ωmax; myparameters.κ]
 prob = SDEProblem{true}(qubit_drift!, qubit_diffusion!, vec(u0[:, 1]), myparameters.tspan,
                         p_all)
 
+using ModelingToolkit, StaticArrays
+sys = modelingtoolkitize(prob)
+prob = SDEProblem{false}(sys, prob.u0, prob.tspan, prob.p)
+T1 = Float32
+prob = remake(prob; u0 = SArray{Tuple{length(prob.u0)}, T1}(prob.u0),
+              tspan = T1.(prob.tspan),
+              p = prob.p isa SciMLBase.NullParameters ? prob.p :
+                  SArray{Tuple{length(prob.p)}, T1}(prob.p))
+
+using CUDA
+probs = cu([prob])
+function kernel(probs)
+    prob = probs[1]
+    u = prob.f(prob.u0, prob.p, 1.0f0)
+    @cushow u[1]
+    return
+end
+using DiffEqGPU
+
+monteprob = EnsembleProblem(prob)
+sol = solve(monteprob, GPUEM(), EnsembleGPUKernel(0.0), dt = myparameters.dt,
+            trajectories = 10,
+            adaptive = false)
+
 #########################################
 # compute loss
 function g(u, p, t)
@@ -171,23 +195,22 @@ function prob_func(prob, i, repeat)
     NG = CreateGrid(myparameters.ts, W1)
 
     remake(prob,
-            p = pars,
-            u0 = u0tmp,
-            callback = callback,
-            noise = NG)
+           p = pars,
+           u0 = u0tmp,
+           callback = callback,
+           noise = NG)
 end
 
 ensembleprob = EnsembleProblem(prob,
-                                prob_func = prob_func,
-                                safetycopy = true)
+                               prob_func = prob_func,
+                               safetycopy = true)
 
 _sol = solve(ensembleprob, alg, EnsembleThreads(),
-                sensealg = sensealg,
-                saveat = myparameters.tinterval,
-                dt = myparameters.dt,
-                adaptive = false,
-                trajectories = myparameters.numtraj, batch_size = myparameters.numtraj)
-
+             sensealg = sensealg,
+             saveat = myparameters.tinterval,
+             dt = myparameters.dt,
+             adaptive = false,
+             trajectories = myparameters.numtraj, batch_size = myparameters.numtraj)
 
 # function loss(p; alg = EM(), sensealg = BacksolveAdjoint(autojacvec = ReverseDiffVJP()))
 #     pars = [p; myparameters.Δ; myparameters.Ωmax; myparameters.κ]

@@ -20,7 +20,7 @@ end
 
 u0 = @SVector [1.0f0; 0.0f0; 0.0f0]
 tspan = (0.0f0, 1.0f0)
-p = @SArray [28.0f0]
+p = @SArray [21.0f0]
 prob = ODEProblem(lorenz, u0, tspan, p)
 
 parameterList = range(0.0f0, stop = 21.0f0, length = numberOfParameters)
