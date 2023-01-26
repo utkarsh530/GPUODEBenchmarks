@@ -24,10 +24,10 @@ probs = cu(probs);
 
 ## Finally use the lower API for faster solves! (Fixed time-stepping)
 
-@benchmark CUDA.@sync ts, us = DiffEqGPU.vectorized_solve(probs, prob, GPUEM();
+@benchmark CUDA.@sync ts, us = DiffEqGPU.vectorized_solve($probs, $prob, GPUEM();
                                                           save_everystep = false,
                                                           dt = Float32(1 // 2^8))
 
-@benchmark CUDA.@sync ts, us = DiffEqGPU.vectorized_solve(probs, prob, GPUSIEA();
+@benchmark CUDA.@sync ts, us = DiffEqGPU.vectorized_solve($probs, $prob, GPUSIEA();
                                                           save_everystep = false,
                                                           dt = Float32(1 // 2^8))
