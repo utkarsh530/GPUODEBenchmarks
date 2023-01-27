@@ -1,8 +1,8 @@
 # This file is machine-generated - editing it directly is not advised
 
-julia_version = "1.8.1"
+julia_version = "1.8.3"
 manifest_format = "2.0"
-project_hash = "3262f553a824d526d79be60529b762545e599020"
+project_hash = "573af26d209efd7963a94bcd92a31f3984e29f8d"
 
 [[deps.AbstractAlgebra]]
 deps = ["GroupsCore", "InteractiveUtils", "LinearAlgebra", "MacroTools", "Markdown", "Random", "RandomExtensions", "SparseArrays", "Test"]
@@ -154,7 +154,10 @@ version = "3.12.0"
 
 [[deps.CUDAKernels]]
 deps = ["Adapt", "CUDA", "KernelAbstractions", "StaticArrays", "UnsafeAtomicsLLVM"]
-git-tree-sha1 = "bbab4d1a4001ec322c384dfff0889cec4118da93"
+git-tree-sha1 = "8c1c6afb472782bef4cd678f486f0b1a7513178f"
+repo-rev = "vc/blocks_over_threads"
+repo-subdir = "lib/CUDAKernels"
+repo-url = "https://github.com/JuliaGPU/KernelAbstractions.jl.git"
 uuid = "72cfdca4-0801-4ab0-bf6a-d52aa10adc57"
 version = "0.4.3"
 
@@ -280,10 +283,10 @@ uuid = "b429d917-457f-4dbc-8f4c-0cc954292b1d"
 version = "0.4.0"
 
 [[deps.DiffEqBase]]
-deps = ["ArrayInterfaceCore", "ChainRulesCore", "DataStructures", "Distributions", "DocStringExtensions", "FastBroadcast", "ForwardDiff", "FunctionWrappers", "FunctionWrappersWrappers", "LinearAlgebra", "Logging", "MuladdMacro", "Parameters", "PreallocationTools", "Printf", "RecursiveArrayTools", "Reexport", "Requires", "SciMLBase", "Setfield", "SimpleNonlinearSolve", "SparseArrays", "Static", "StaticArrays", "Statistics", "Tricks", "ZygoteRules"]
-path = "/home/gridsan/utkarsh/.julia/dev/DiffEqBase"
+deps = ["ArrayInterfaceCore", "ChainRulesCore", "DataStructures", "Distributions", "DocStringExtensions", "FastBroadcast", "ForwardDiff", "FunctionWrappers", "FunctionWrappersWrappers", "LinearAlgebra", "Logging", "MuladdMacro", "Parameters", "PreallocationTools", "Printf", "RecursiveArrayTools", "Reexport", "Requires", "SciMLBase", "Setfield", "SparseArrays", "Static", "StaticArrays", "Statistics", "Tricks", "ZygoteRules"]
+git-tree-sha1 = "1e0a1fde551d043af93996a52430c762b32d30c4"
 uuid = "2b5f629d-d688-5b77-993f-72d75c75574e"
-version = "6.113.1"
+version = "6.114.2"
 
 [[deps.DiffEqCallbacks]]
 deps = ["DataStructures", "DiffEqBase", "ForwardDiff", "LinearAlgebra", "Markdown", "NLsolve", "Parameters", "RecipesBase", "RecursiveArrayTools", "SciMLBase", "StaticArrays"]
@@ -293,7 +296,9 @@ version = "2.24.3"
 
 [[deps.DiffEqGPU]]
 deps = ["Adapt", "ArrayInterfaceGPUArrays", "CUDA", "CUDAKernels", "ChainRulesCore", "DiffEqBase", "Distributed", "DocStringExtensions", "ForwardDiff", "KernelAbstractions", "LinearAlgebra", "LinearSolve", "MuladdMacro", "Parameters", "Random", "RecursiveArrayTools", "SciMLBase", "SimpleDiffEq", "StaticArrays", "ZygoteRules"]
-path = "/home/gridsan/utkarsh/.julia/dev/DiffEqGPU"
+git-tree-sha1 = "7d4d9f9ab9beb80034884052e71af22e698ceee9"
+repo-rev = "vc/ka"
+repo-url = "https://github.com/vchuravy/DiffEqGPU.jl"
 uuid = "071ae1c0-96b5-11e9-1965-c90190d839ea"
 version = "1.25.0"
 
@@ -1170,7 +1175,7 @@ version = "1.10.0"
 [[deps.Tar]]
 deps = ["ArgTools", "SHA"]
 uuid = "a4e569a6-e804-4fa4-b0f3-eef7a1d5b13e"
-version = "1.10.0"
+version = "1.10.1"
 
 [[deps.TermInterface]]
 git-tree-sha1 = "7aa601f12708243987b88d1b453541a75e3d8c7a"
