@@ -200,7 +200,7 @@ u0[7] = 0.1
 u0[8] = 0.3
 u0[9] = 0.01
 u0[17] = 0.007
-oprob = ODEProblem(f, u0, T.(0.0, 60.0))
+oprob = ODEProblem(f, u0, (T(0.0), T(60.0)))
 
 prob = make_gpu_compatible(oprob, Val(T))
 
