@@ -5,7 +5,7 @@ using CUDA
 @show ARGS
 #settings
 
-numberOfParameters = isinteractive() ? 8388608 : parse(Int64, ARGS[1])
+numberOfParameters = isinteractive() ? 8192 : parse(Int64, ARGS[1])
 gpuID = 0
 
 device!(CuDevice(gpuID))
@@ -61,17 +61,17 @@ println("Parameter number: " * string(numberOfParameters))
 println("Minimum time: " * string(minimum(data.times) / 1e6) * " ms")
 println("Allocs: " * string(data.allocs))
 
-data = @benchmark CUDA.@sync DiffEqGPU.vectorized_asolve($probs, $ensembleProb.prob,
-                                                         GPUTsit5();
-                                                         dt = 0.001f0, reltol = 1.0f-8,
-                                                         abstol = 1.0f-8)
+# data = @benchmark CUDA.@sync DiffEqGPU.vectorized_asolve($probs, $ensembleProb.prob,
+#                                                          GPUTsit5();
+#                                                          dt = 0.001f0, reltol = 1.0f-8,
+#                                                          abstol = 1.0f-8)
 
-if !isinteractive()
-    open(joinpath(dirname(@__DIR__), "data", "Julia_times_adaptive.txt"), "a+") do io
-        println(io, numberOfParameters, " ", minimum(data.times) / 1e6)
-    end
-end
+# if !isinteractive()
+#     open(joinpath(dirname(@__DIR__), "data", "Julia_times_adaptive.txt"), "a+") do io
+#         println(io, numberOfParameters, " ", minimum(data.times) / 1e6)
+#     end
+# end
 
-println("Parameter number: " * string(numberOfParameters))
-println("Minimum time: " * string(minimum(data.times) / 1e6) * " ms")
-println("Allocs: " * string(data.allocs))
+# println("Parameter number: " * string(numberOfParameters))
+# println("Minimum time: " * string(minimum(data.times) / 1e6) * " ms")
+# println("Allocs: " * string(data.allocs))

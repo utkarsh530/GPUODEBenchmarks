@@ -1,4 +1,4 @@
-using DiffEqGPU, OrdinaryDiffEq, StaticArrays, CUDA, BenchmarkTools
+using DiffEqGPU, DiffEqBase, StaticArrays, CUDA, BenchmarkTools
 trajectories = 10_000
 
 # Defining the Problem

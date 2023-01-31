@@ -13,7 +13,7 @@ gpuID = 0
 
 problems_path = joinpath(@__DIR__, "problems")
 
-include(joinpath(problems_path, "pleaides.jl"))
+include(joinpath(problems_path, "pleiades.jl"));
 
 # Adaptive = false
 
