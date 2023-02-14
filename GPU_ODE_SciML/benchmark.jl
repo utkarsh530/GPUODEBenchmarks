@@ -61,17 +61,17 @@ println("Parameter number: " * string(numberOfParameters))
 println("Minimum time: " * string(minimum(data.times) / 1e6) * " ms")
 println("Allocs: " * string(data.allocs))
 
-# data = @benchmark CUDA.@sync DiffEqGPU.vectorized_asolve($probs, $ensembleProb.prob,
-#                                                          GPUTsit5();
-#                                                          dt = 0.001f0, reltol = 1.0f-8,
-#                                                          abstol = 1.0f-8)
+data = @benchmark CUDA.@sync DiffEqGPU.vectorized_asolve($probs, $ensembleProb.prob,
+                                                         GPUTsit5();
+                                                         dt = 0.001f0, reltol = 1.0f-8,
+                                                         abstol = 1.0f-8)
 
-# if !isinteractive()
-#     open(joinpath(dirname(@__DIR__), "data", "Julia_times_adaptive.txt"), "a+") do io
-#         println(io, numberOfParameters, " ", minimum(data.times) / 1e6)
-#     end
-# end
+if !isinteractive()
+    open(joinpath(dirname(@__DIR__), "data", "Julia_times_adaptive.txt"), "a+") do io
+        println(io, numberOfParameters, " ", minimum(data.times) / 1e6)
+    end
+end
 
-# println("Parameter number: " * string(numberOfParameters))
-# println("Minimum time: " * string(minimum(data.times) / 1e6) * " ms")
-# println("Allocs: " * string(data.allocs))
+println("Parameter number: " * string(numberOfParameters))
+println("Minimum time: " * string(minimum(data.times) / 1e6) * " ms")
+println("Allocs: " * string(data.allocs))
