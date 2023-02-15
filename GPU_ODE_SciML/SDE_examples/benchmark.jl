@@ -1,5 +1,9 @@
 using DiffEqGPU, DiffEqBase, StaticArrays, CUDA, BenchmarkTools
-trajectories = 10_000
+
+@show ARGS
+#settings
+
+numberOfParameters = isinteractive() ? 8192 : parse(Int64, ARGS[1])
 
 # Defining the Problem
 # dX = pudt + qudW
