@@ -1,5 +1,5 @@
 
-using Catalyst, OrdinaryDiffEq, Plots, StochasticDiffEq, StaticArrays, CUDA
+using Catalyst, Plots, StochasticDiffEq, StaticArrays, CUDA
 
 @show ARGS
 #settings
@@ -32,7 +32,9 @@ n_grid = Float32[2.0, 3.0, 4.0]
 
 parameters = collect(Iterators.product(S_grid, D_grid, τ_grid, v0_grid, n_grid, η_grid));
 
-trajectories = length(parameters)
+numberOfParameters = length(parameters)
+
+@show numberOfParameters
 
 function σGen_p_func(prob, i, repeat)
     for parameter in parameters
@@ -68,59 +70,51 @@ eprob = EnsembleProblem(prob, prob_func = prob_func, safetycopy = false)
 saveat = T1(0.0f0):T1(1.0f0):T1(1000.0f0)
 dt = T1(0.1f0)
 
+probs = map(1:numberOfParameters) do i
+    prob_func(prob, i, false)
+end;
+
 ### Benchmarking
 using BenchmarkTools
 
-if has_cuda_gpu()
-    @info "Solving the problem: GPU"
+@info "Solving the problem: GPU"
 
-    data = @benchmark CUDA.@sync solve($eprob, GPUEM(), EnsembleGPUKernel(0.0); dt,
-                                       adaptive = false,
-                                       trajectories, save_everystep = false)
+## Move the arrays to the GPU
+gpuprobs = cu(probs);
 
-    if !isinteractive()
-        open(joinpath(dirname(@__DIR__), "data", "Julia_times_gpu.txt"), "a+") do io
-            println(io, numberOfParameters, " ", minimum(data.times) / 1e6)
-        end
+## Finally use the lower API for faster solves! (Fixed time-stepping)
+
+# Benchmarking
+
+# CUDA.@time DiffEqGPU.vectorized_solve(gpuprobs, prob, GPUEM();
+#                                             save_everystep = false,
+#                                             dt = 0.1f0)
+
+# @time DiffEqGPU.vectorized_solve(probs, prob, GPUEM();
+#                                  save_everystep = false,
+#                                  dt = 0.1f0)
+
+data = @benchmark CUDA.@sync DiffEqGPU.vectorized_solve($gpuprobs, $prob, GPUEM();
+                                                        save_everystep = false,
+                                                        dt = 0.1f0)
+
+if !isinteractive()
+    open(joinpath(dirname(dirname(@__DIR__)), "data", "SDE", "MTK", "Julia_times_unadaptive.txt"), "a+") do io
+        println(io, numberOfParameters, " ", minimum(data.times) / 1e6)
     end
-    println("Parameter number: " * string(numberOfParameters))
-    println("Minimum time: " * string(minimum(data.times) / 1e6) * " ms")
-    println("Allocs: " * string(data.allocs))
-
-    ### Lower lower API
-
-    probs = map(1:trajectories) do i
-        prob_func(prob, i, false)
-    end
-
-    ## Move the arrays to the GPU
-    probs = cu(probs)
-
-    ## Finally use the lower API for faster solves! (Fixed time-stepping)
-
-    # Benchmarking
-
-    data = @benchmark CUDA.@sync DiffEqGPU.vectorized_solve($probs, $prob, GPUEM();
-                                                            save_everystep = false,
-                                                            dt = 0.1f0)
-
-    if !isinteractive()
-        open(joinpath(dirname(@__DIR__), "data", "Julia_times_gpu_lower.txt"), "a+") do io
-            println(io, numberOfParameters, " ", minimum(data.times) / 1e6)
-        end
-    end
-    println("Parameter number: " * string(numberOfParameters))
-    println("Minimum time: " * string(minimum(data.times) / 1e6) * " ms")
-    println("Allocs: " * string(data.allocs))
 end
+println("Parameter number: " * string(numberOfParameters))
+println("Minimum time: " * string(minimum(data.times) / 1e6) * " ms")
+println("Allocs: " * string(data.allocs))
 
 @info "Solving the problem: CPU"
 
-data = @benchmark solve($eprob, EM(), EnsembleThreads(); dt, adaptive = false, trajectories,
-                        save_everystep = false)
+data = @benchmark DiffEqGPU.vectorized_solve($probs, $prob, GPUEM();
+                                             save_everystep = false,
+                                             dt = 0.1f0)
 
 if !isinteractive()
-    open(joinpath(dirname(@__DIR__), "data", "Julia_times_cpu.txt"), "a+") do io
+    open(joinpath(dirname(dirname(@__DIR__)), "data", "CPU", "SDE", "MTK", "Julia_times_unadaptive.txt"), "a+") do io
         println(io, numberOfParameters, " ", minimum(data.times) / 1e6)
     end
 end
