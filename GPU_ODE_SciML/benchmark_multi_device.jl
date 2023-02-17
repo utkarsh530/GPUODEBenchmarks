@@ -50,7 +50,7 @@ probs = if ARGS[2] == "CUDA"
     println("Running on " * string(CuDevice(gpuID)))
     cu(probs)
 elseif ARGS[2] == "oneAPI"
-    using oneAPI
+    using oneAPI, oneAPIKernels
     device()
     probs |> oneArray
 elseif ARGS[2] == "AMDGPU"
