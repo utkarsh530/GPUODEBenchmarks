@@ -4,7 +4,7 @@ while [ $a -lt $max_a ]
 do
     	# Print the values
     	echo $a
-	julia --project="./GPU_ODE_SciML/" ./GPU_ODE_SciML/benchmark_multi_device.jl $a "oneAPI"
+	julia --project="./GPU_ODE_SciML/" ./GPU_ODE_SciML/benchmark_multi_device.jl $a "Metal"
     	# increment the value
     	a=$((a*4))
 done

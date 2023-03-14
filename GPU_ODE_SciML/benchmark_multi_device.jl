@@ -56,10 +56,13 @@ elseif ARGS[2] == "oneAPI"
 elseif ARGS[2] == "AMDGPU"
     using AMDGPU
     roc(probs)
+elseif ARGS[2] == "Metal"
+    using Metal, MetalKernels
+    probs |> MtlArray
 end
 
 @info "Solving the problem"
-data = @benchmark oneAPI.@sync DiffEqGPU.vectorized_solve($probs, $ensembleProb.prob,
+data = @benchmark Metal.@sync DiffEqGPU.vectorized_solve($probs, $ensembleProb.prob,
                                                         GPUTsit5();
                                                         save_everystep = false,
                                                         dt = 0.001f0)
@@ -74,7 +77,7 @@ println("Parameter number: " * string(numberOfParameters))
 println("Minimum time: " * string(minimum(data.times) / 1e6) * " ms")
 println("Allocs: " * string(data.allocs))
 
-data = @benchmark oneAPI.@sync DiffEqGPU.vectorized_asolve($probs, $ensembleProb.prob,
+data = @benchmark Metal.@sync DiffEqGPU.vectorized_asolve($probs, $ensembleProb.prob,
                                                          GPUTsit5();
                                                          dt = 0.001f0, reltol = 1.0f-8,
                                                          abstol = 1.0f-8)
