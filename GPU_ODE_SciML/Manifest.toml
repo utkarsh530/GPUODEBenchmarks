@@ -18,9 +18,9 @@ version = "0.27.8"
 
 [[deps.AbstractFFTs]]
 deps = ["ChainRulesCore", "LinearAlgebra"]
-git-tree-sha1 = "69f7020bd72f069c219b5e8c236c1fa90d2cb409"
+git-tree-sha1 = "16b6dbc4cf7caee4e1e75c49485ec67b667098a0"
 uuid = "621f4979-c628-5d54-868e-fcf4e3e8185c"
-version = "1.2.1"
+version = "1.3.1"
 
 [[deps.AbstractTrees]]
 git-tree-sha1 = "faa260e4cb5aba097a73fab382dd4b5819d8ec8c"
@@ -334,8 +334,10 @@ uuid = "f3b72e0c-5b89-59e1-b016-84e28bfd966d"
 version = "2.33.0"
 
 [[deps.DiffEqGPU]]
-deps = ["AMDGPU", "Adapt", "ArrayInterfaceGPUArrays", "CUDA", "CUDAKernels", "ChainRulesCore", "DiffEqBase", "Distributed", "DocStringExtensions", "ForwardDiff", "KernelAbstractions", "LinearAlgebra", "LinearSolve", "Metal", "MetalKernels", "MuladdMacro", "Parameters", "ROCKernels", "Random", "RecursiveArrayTools", "SciMLBase", "SimpleDiffEq", "StaticArrays", "TOML", "ZygoteRules", "oneAPI", "oneAPIKernels"]
-path = "/Users/utkarsh/.julia/dev/DiffEqGPU"
+deps = ["AMDGPU", "Adapt", "ArrayInterfaceGPUArrays", "CUDA", "CUDAKernels", "ChainRulesCore", "DiffEqBase", "Distributed", "DocStringExtensions", "ForwardDiff", "KernelAbstractions", "LinearAlgebra", "LinearSolve", "Metal", "MuladdMacro", "Parameters", "ROCKernels", "Random", "RecursiveArrayTools", "SciMLBase", "SimpleDiffEq", "StaticArrays", "TOML", "ZygoteRules"]
+git-tree-sha1 = "113a60bfda5e6f66e7626adc58e4f590749b2d9a"
+repo-rev = "u/metalexp"
+repo-url = "https://github.com/SciML/DiffEqGPU.jl.git"
 uuid = "071ae1c0-96b5-11e9-1965-c90190d839ea"
 version = "1.26.0"
 
@@ -662,9 +664,9 @@ version = "4.16.0"
 
 [[deps.LLVMExtra_jll]]
 deps = ["Artifacts", "JLLWrappers", "LazyArtifacts", "Libdl", "Pkg", "TOML"]
-git-tree-sha1 = "771bfe376249626d3ca12bcd58ba243d3f961576"
+git-tree-sha1 = "7718cf44439c676bc0ec66a87099f41015a522d6"
 uuid = "dad2f222-ce93-54a1-a47d-0025e8a3acab"
-version = "0.0.16+0"
+version = "0.0.16+2"
 
 [[deps.LLVM_jll]]
 deps = ["Artifacts", "JLLWrappers", "Libdl", "Pkg", "Zlib_jll", "libLLVM_jll"]
@@ -881,12 +883,6 @@ deps = ["LinearAlgebra", "SparseArrays", "Test"]
 git-tree-sha1 = "552fcfccfa01120a24311f33b94fd683606ce3bd"
 uuid = "d8a4904e-b15c-11e9-3269-09a3773c0cb0"
 version = "1.2.2"
-
-[[deps.NEO_jll]]
-deps = ["Artifacts", "JLLWrappers", "Libdl", "Pkg", "gmmlib_jll", "libigc_jll", "oneAPI_Level_Zero_Headers_jll"]
-git-tree-sha1 = "48337227b88be34125e1b4f5402789694a184f5a"
-uuid = "700fe977-ac61-5f37-bbc8-c6c4b2b6a9fd"
-version = "22.53.25242+0"
 
 [[deps.NLSolversBase]]
 deps = ["DiffResults", "Distributed", "FiniteDiff", "ForwardDiff"]
@@ -1181,18 +1177,6 @@ deps = ["IfElse", "Static", "VectorizationBase"]
 git-tree-sha1 = "cda0aece8080e992f6370491b08ef3909d1c04e7"
 uuid = "476501e8-09a2-5ece-8869-fb82de89a1fa"
 version = "0.6.38"
-
-[[deps.SPIRV_LLVM_Translator_unified_jll]]
-deps = ["Artifacts", "JLLWrappers", "LazyArtifacts", "Libdl", "Pkg", "TOML"]
-git-tree-sha1 = "2f9c006df258116f90874e47207229c83d06c845"
-uuid = "85f0d8ed-5b39-5caa-b1ae-7472de402361"
-version = "0.2.0+0"
-
-[[deps.SPIRV_Tools_jll]]
-deps = ["Artifacts", "JLLWrappers", "Libdl", "Pkg"]
-git-tree-sha1 = "e0225ce074ac6c448b3d7f92d5708a93fea4ddbc"
-uuid = "6ac6d60f-d740-5983-97d7-a4482c0689f4"
-version = "2022.1.0+0"
 
 [[deps.SciMLBase]]
 deps = ["ArrayInterfaceCore", "CommonSolve", "ConstructionBase", "Distributed", "DocStringExtensions", "EnumX", "FunctionWrappersWrappers", "IteratorInterfaceExtensions", "LinearAlgebra", "Logging", "Markdown", "Preferences", "RecipesBase", "RecursiveArrayTools", "RuntimeGeneratedFunctions", "StaticArraysCore", "Statistics", "SymbolicIndexingInterface", "Tables"]
@@ -1594,12 +1578,6 @@ git-tree-sha1 = "aa21810b841ae26d2fc7f780cb1596b4170a4c49"
 uuid = "d65627f6-89bd-53e8-8ab5-8b75ff535eee"
 version = "1.2.8+0"
 
-[[deps.gmmlib_jll]]
-deps = ["Artifacts", "JLLWrappers", "Libdl", "Pkg"]
-git-tree-sha1 = "228b09be83d88cc5d2236ef7b516d988d2639dfc"
-uuid = "09858cae-167c-5acb-9302-fddc6874d481"
-version = "22.3.0+0"
-
 [[deps.hsa_rocr_jll]]
 deps = ["Artifacts", "Elfutils_jll", "JLLWrappers", "Libdl", "NUMA_jll", "Pkg", "ROCmDeviceLibs_jll", "XML2_jll", "Zlib_jll", "hsakmt_roct_jll"]
 git-tree-sha1 = "845b74e63e36693bea0ed243e4cfc021f0ddb625"
@@ -1628,12 +1606,6 @@ git-tree-sha1 = "89b30a68162c12118311b77e57b20c8fa2685496"
 uuid = "8e53e030-5e6c-5a89-a30b-be5b7263a166"
 version = "2.4.110+0"
 
-[[deps.libigc_jll]]
-deps = ["Artifacts", "JLLWrappers", "Libdl", "Pkg"]
-git-tree-sha1 = "d577d44c9e92244cf60fbc183cb5506860916647"
-uuid = "94295238-5935-5bd7-bb0f-b00942e9bdd5"
-version = "1.0.12812+0"
-
 [[deps.nghttp2_jll]]
 deps = ["Artifacts", "Libdl"]
 uuid = "8e850ede-7688-5339-a07c-302acd2aaf8d"
@@ -1644,36 +1616,6 @@ deps = ["Artifacts", "JLLWrappers", "Libdl", "Pkg"]
 git-tree-sha1 = "1c4a6b66e934fc6db4649cb2910c72f53bbfea7e"
 uuid = "c88a4935-d25e-5644-aacc-5db6f1b8ef79"
 version = "1.2.2+0"
-
-[[deps.oneAPI]]
-deps = ["Adapt", "CEnum", "ExprTools", "GPUArrays", "GPUCompiler", "LLVM", "LinearAlgebra", "NEO_jll", "Printf", "Random", "SPIRV_LLVM_Translator_unified_jll", "SPIRV_Tools_jll", "SpecialFunctions", "oneAPI_Level_Zero_Headers_jll", "oneAPI_Level_Zero_Loader_jll", "oneAPI_Support_jll"]
-git-tree-sha1 = "7c6e5666e930b138436a1194d832776d39da828e"
-uuid = "8f75cd03-7ff8-4ecb-9b8f-daf728133b1b"
-version = "1.0.1"
-
-[[deps.oneAPIKernels]]
-deps = ["KernelAbstractions", "StaticArrays", "oneAPI"]
-git-tree-sha1 = "3677f201a1a9224b41b725cf099b9a9bf2b4ed0a"
-uuid = "3b98bdbd-c5fb-40e4-a3b9-3b59ff234f62"
-version = "0.1.2"
-
-[[deps.oneAPI_Level_Zero_Headers_jll]]
-deps = ["Artifacts", "JLLWrappers", "Libdl", "Pkg"]
-git-tree-sha1 = "a6993678f31fb17d388809ec99edea2e56c728c4"
-uuid = "f4bc562b-d309-54f8-9efb-476e56f0410d"
-version = "1.4.8+0"
-
-[[deps.oneAPI_Level_Zero_Loader_jll]]
-deps = ["Artifacts", "JLLWrappers", "Libdl", "Pkg", "oneAPI_Level_Zero_Headers_jll"]
-git-tree-sha1 = "338004d43267bf16baed27addea3bfb7bfe1c25f"
-uuid = "13eca655-d68d-5b81-8367-6d99d727ab01"
-version = "1.8.12+0"
-
-[[deps.oneAPI_Support_jll]]
-deps = ["Artifacts", "JLLWrappers", "Libdl", "Pkg", "oneAPI_Level_Zero_Loader_jll"]
-git-tree-sha1 = "fed1eafb81709f769e00a7bc4f89b06c9cd1ff4c"
-uuid = "b049733a-a71d-5ed3-8eba-7d323ac00b36"
-version = "0.2.0+0"
 
 [[deps.p7zip_jll]]
 deps = ["Artifacts", "Libdl"]
