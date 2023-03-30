@@ -41,8 +41,9 @@ plt = groupedbar(
     ylabel = "Time (s)",
     xlabel = s,
     legend = :topleft,
-    title = "Performance Comparison with different GPU backend",
-    palette =  [colors[3], colors[1], colors[2], colors[4]],
+    title = "Performance Comparison with different GPU backends",
+    titlefontsize = 12,
+    palette = [colors[3], colors[1], colors[2], colors[4]],
     dpi=300,
 )
 
@@ -77,8 +78,9 @@ plt = groupedbar(
     ylabel = "Time (s)",
     xlabel = s,
     legend = :topleft,
-    title = "Performance Comparison with different GPU backend",
-    palette =  [colors[3], colors[1], colors[2], colors[4]],
+    title = "Performance Comparison with different GPU backends",
+    titlefontsize = 12,
+    palette = [colors[3], colors[1], colors[2], colors[4]],
     dpi=300,
 )
 
