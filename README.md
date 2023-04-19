@@ -5,10 +5,10 @@ Comparsion of Julia's GPU based ensemble ODE solvers with other open-source impl
 **_NOTE:_**  This repository is meant to contain scripts for benchmarking existing ensemble ODE solvers. For external purposes, one can directly use the solvers from the respective libraries. 
 
 ### Performance comparsion with other open-source ensemble ODE solvers
-<img src="https://github.com/utkarsh530/GPUODEBenchmarks/blob/main/paper_artifacts/figures/Lorenz_unadaptive.png" alt="drawing" width="30%"/>
+<img src="https://github.com/utkarsh530/GPUODEBenchmarks/blob/main/paper_artifacts/figures/Lorenz_unadaptive.png" alt="drawing" width="50%"/>
 
 ### Works with NVIDIA, Intel, AMD and Apple GPUs
-<img src="https://github.com/utkarsh530/GPUODEBenchmarks/blob/main/paper_artifacts/figures/Multi_GPU_unadaptive.png" alt="drawing" width="30%"/>
+<img src="https://github.com/utkarsh530/GPUODEBenchmarks/blob/main/paper_artifacts/figures/Multi_GPU_unadaptive.png" alt="drawing" width="50%"/>
 
 # Reproduction of the benchmarks
 Running the benchmarks requires setting up packages for different programs. Please follow `README_<program>.md` for setting up and installation instructions. After the setup and installation is done, the timings for the ODE solvers can be simply done via the bash script `run_benchmark.sh`. The syntax is:
