@@ -4,7 +4,7 @@ max_a=$1
 path="SDE"
 if [ -d "./data/${path}" ] 
 then
-	rm -rf "./data/${path}"
+	rm -rf "./data/${path}"/* || true
 	mkdir -p "./data/${path}"
 else
 	mkdir -p "./data/${path}"
