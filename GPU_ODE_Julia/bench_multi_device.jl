@@ -111,11 +111,6 @@ elseif ARGS[2] == "Metal"
                                                        abstol = 1.0f-8)
 end
 
-data = @benchmark DiffEqGPU.vectorized_asolve($probs, $ensembleProb.prob,
-                                              GPUTsit5();
-                                              dt = 0.001f0, reltol = 1.0f-8,
-                                              abstol = 1.0f-8)
-
 if !isinteractive()
     open(joinpath(dirname(@__DIR__), "data", "devices", ARGS[2],
                   "Julia_times_adaptive.txt"), "a+") do io
