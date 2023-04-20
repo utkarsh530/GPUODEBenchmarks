@@ -27,7 +27,7 @@ if [ $lang == "julia" ]; then
     else
         if [ -d "./data/${lang^}" ];
         then
-            rm -rf "./data/${lang^}"
+            rm -f "./data/${lang^}"/*
             mkdir -p "./data/${lang^}"
         else
             mkdir -p "./data/${lang^}"
@@ -43,7 +43,7 @@ elif [[ $lang == "jax"  ||  $lang == "pytorch" || $lang == "cpp" ]]; then
         echo "Benchmarking ${lang^^} ${dev^^} accelerated ensemble ${model^^} solvers..."
         if [ -d "./data/${lang^^}" ] 
         then
-            rm -rf "./data/${lang^^}"
+            rm -rf "./data/${lang^^}"/*
             mkdir -p "./data/${lang^^}"
         else
             mkdir -p "./data/${lang^^}"
