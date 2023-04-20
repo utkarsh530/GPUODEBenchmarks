@@ -66,7 +66,7 @@ nvcc fatal   : No input files specified; use option --help for more information
 ## Getting started with Julia
 
 ### Install Julia
-Firstly, we'll need to install Julia. The user can download the binaries from the [official JuliaLang website](https://julialang.org/downloads/) or follow this [tutorial](https://julialang.org/downloads/platform/). Alternatively, one can use the convenience of a [Julia multiplier](https://github.com/JuliaLang/juliaup). The recommended OS for installation is Linux. **The recommended Julia version is v1.8**. For using AMD GPUs, please install v1.9.
+Firstly, we'll need to install Julia. The user can download the binaries from the [official JuliaLang website](https://julialang.org/downloads/) or follow this [tutorial](https://julialang.org/downloads/platform/). Alternatively, one can use the convenience of a [Julia version multipexer](https://github.com/JuliaLang/juliaup). The recommended OS for installation is Linux. **The recommended Julia version is v1.8**. For using AMD GPUs, please install v1.9.
 
 ### Add Julia to your PATH
 Execute this command in your shell or add this entry to your `.bashrc` or `.profile` file:
