@@ -11,123 +11,301 @@ Comparsion of Julia's GPU based ensemble ODE solvers with other open-source impl
 <img src="https://github.com/utkarsh530/GPUODEBenchmarks/blob/main/paper_artifacts/figures/Multi_GPU_unadaptive.png" alt="drawing" width="50%"/>
 
 # Reproduction of the benchmarks
-Running the benchmarks requires setting up packages for different programs. Please follow `README_<program>.md` for setting up and installation instructions. After the setup and installation is done, the timings for the ODE solvers can be simply done via the bash script `run_benchmark.sh`. The syntax is:
 
-```console
-$ ./run_benchmark.sh -p <program> -d <device> -m <model> -n <max_trajectories>
-```
+The methods are written in Julia, and are part of the repository,
+<https://github.com/SciML/DiffEqGPU.jl>. The benchmark suite also
+consists of the raw data, such as simulation times and plots mentioned
+in the paper. The supported OS for the benchmark suite is Linux.
 
-With the acceptable flag arguments as:
+## Installing Julia
 
-```
-<program> = {"julia","jax","pytorch","cpp"}
-<device> = {"cpu","gpu"}
-<model> = {"ode","sde"}
-<max_trajectories> = N (Eg. 1024)
-```
-The script will run the respective program for different trajectories $n$ for $8\le n \le N$, with jumps of multiple of 4. The scripts for JAX, PyTorch and C++ (MPGOS) is available only for GPU ODE solvers.
+Firstly, we will need to install Julia. The user can download the
+binaries from the official JuliaLang website
+[`https://julialang.org/downloads/`](https://julialang.org/downloads/).
+Alternatively, one can use the convenience of a Julia version
+multiplexer, <https://github.com/JuliaLang/juliaup>. The recommended OS
+for installation is Linux. The recommended Julia installation version is
+v1.8. To use AMD GPUs, please install v1.9. The Julia installation
+should also be added to the user's path.
 
-## Configuring GPU
+## Setting up DiffEqGPU.jl
 
-For the purpose of benchmarking the ODE solvers, the NVIDIA CUDA backend is used. Please ensure that all related drivers and CUDA Toolkit is installed in your workstation. The recommended CUDAToolkit is >= 11. One can check the installation by runnning:
+### Installing backends
 
-```console
-$ nvidia-smi
-```
-If the toolkit is installed correctly, one will get a message similar to below:
-
-```
-+-----------------------------------------------------------------------------+
-| NVIDIA-SMI 510.108.03   Driver Version: 510.108.03   CUDA Version: 11.6     |
-|-------------------------------+----------------------+----------------------+
-| GPU  Name        Persistence-M| Bus-Id        Disp.A | Volatile Uncorr. ECC |
-| Fan  Temp  Perf  Pwr:Usage/Cap|         Memory-Usage | GPU-Util  Compute M. |
-|                               |                      |               MIG M. |
-|===============================+======================+======================|
-|   0  Tesla V100-PCIE...  On   | 00000000:D8:00.0 Off |                  Off |
-| N/A   28C    P0    25W / 150W |      0MiB / 32768MiB |      0%      Default |
-|                               |                      |                  N/A |
-+-------------------------------+----------------------+----------------------+
-...
-```
-Additionally, for benchmarking CUDA C++, the NVIDIA CUDA C++ compiler is also required. One can check for the installation as:
-
-```console
-$ nvcc
-```
-When installed successfully, should return something like this:
-
-```
-nvcc fatal   : No input files specified; use option --help for more information
-```
-**_NOTE:_**: For using CUDA with Julia, one can use [CUDA.jl](https://github.com/JuliaGPU/CUDA.jl) directly, as described in the section "Getting started with Julia". It installs the requires binaries automatically.  
-
-
-## Getting started with Julia
-
-### Install Julia
-Firstly, we'll need to install Julia. The user can download the binaries from the [official JuliaLang website](https://julialang.org/downloads/) or follow this [tutorial](https://julialang.org/downloads/platform/). Alternatively, one can use the convenience of a [Julia version multiplexer](https://github.com/JuliaLang/juliaup). The recommended OS for installation is Linux. **The recommended Julia version is v1.8**. For using AMD GPUs, please install v1.9.
-
-### Add Julia to your PATH
-Execute this command in your shell or add this entry to your `.bashrc` or `.profile` file:
-
-```console
-$ export PATH="$PATH:/path/to/<Julia directory>/bin"
-````
-
-Now try:
-
-```console
-$ julia
-```
-
-If the steps are followed correctly, the Julia terminal will show without any errors.
-
-## Getting ready for running Julia GPU solvers
-
-### Installing CUDA.jl
-
-We'll need to install CUDA.jl for benchmarking. It is the only backend which is compatible with the ODE solvers in JAX, PyTorch and MPGOS. However, our ODE solvers are compatible with multiple backends. See details further for running the ODE solvers with different backends.
-To do so, one can simply follow the below process in the Julia Terminal:
+The user must install the GPU backend library for testing
+DiffEqGPU.jl-related code.
 
 ```julia
-using Pkg
-Pkg.activate()
-Pkg.update()
-Pkg.install("CUDA")
+    julia> using Pkg
+    julia> #Run either of them
+    julia> Pkg.add("CUDA") # NVIDIA GPUs
+    julia> Pkg.add("AMDGPU") #AMD GPUs
+    julia> Pkg.add("oneAPI") #Intel GPUs
+    julia> Pkg.add("Metal") #Apple M series GPUs
 ```
-This installs the CUDA library in the global enviroment. This might take some while. After connection, try running:
+### Testing DiffEqGPU.jl
 
+DiffEqGPU.jl is a test suite that regularly checks functionality by
+testing features like multiple backend support, event handling, and
+automatic differentiation. To test the functionality, one can follow the
+below instructions. The user needs to specify the \"backend\" for
+example \"CUDA\" for NVIDIA, \"AMDGPU\" for AMD, \"oneAPI\" for Intel
+and \"Metal\" for Apple GPUs. The estimated time of completion is 20
+minutes.
 ```julia
-using CUDA
-CUDA.versioninfo()
-CuArray(rand(2)) #Testing by allocating an array on GPU
+    $ julia --project=.
+    julia> using Pkg
+    julia> Pkg.instantiate()
+    julia> Pkg.precompile()
 ```
-If the above steps runs without errors, congratulations, your CUDA.jl installation is successful.
-
-### Instantiating libraries for benchmarking
-
-The GPU solvers are part of the repository, DiffEqGPU.jl. These scripts simply invoke the solvers from the library and collect timings for benchmarking. We will instantiate and precompile all the packages beforehand to avoid the wait times during benchmarking. The folder `./GPU_ODE_Julia` contains all the related scripts for the GPU solvers. Start the Julia session as:
-
-```console
-$ julia --project="/path/to/<GPUODEBenchmarks>/GPU_ODE_Julia" --threads=auto
+Finally test the package by this command
+```bash
+    $ backend="CUDA"
+    $ julia --project=. test_DiffEqGPU.jl backend
 ```
+Additionally, the GitHub discussion
+[`https://github.com/SciML/DiffEqGPU.jl/issues/224#issuecomment-1453769679`](https://github.com/SciML/DiffEqGPU.jl/issues/224#issuecomment-1453769679)
+highlights the use of textured memory with ODE solvers, accelerated the
+code by $2\times$ over CPU.
 
-Now, in the Julia terminal, run:
+### Continuous Integration and Development
 
+DiffEqGPU.jl is a fully featured library with regression testing, semver
+versioning, and version control. The tests are performed on cloud
+machines having a multitude of different GPUs
+[`https://buildkite.com/julialang/diffeqgpu-dot-jl/builds/705`](https://buildkite.com/julialang/diffeqgpu-dot-jl/builds/705).
+These tests approximately completes in 30 minutes. The publicly visible
+testing framework serves as a testimonial of compatibility with multiple
+platforms and said features in the paper.
+
+## Testing GPU accelerated ODE Benchmarks with other programs
+
+### Benchmarking Julia (DiffEqGPU.jl) methods
+We will need to install CUDA.jl for benchmarking. It is the only backend
+compatible with the ODE solvers in JAX, PyTorch, and MPGOS. To do so,
+one can follow the below process in the Julia Terminal:
 ```julia
-using Pkg
-Pkg.instantiate()
-Pkg.precompile()
+    $ julia
+    julia> using Pkg
+    julia> Pkg.add("CUDA")
 ```
+Let's clone the benchmark suite repository to start benchmarking;
+```bash
+    $ git clone https://github.com/utkarsh530\
+    /GPUODEBenchmarks.git
+```
+We will instantiate and pre-compile all the packages beforehand to avoid
+the wait times during benchmarking. The folder ./GPU_ODE_Julia contains
+all the related scripts for the GPU solvers.
+```bash
+    $ cd ./GPUODEBenchmarks
+    $ julia --project=./GPU_ODE_Julia --threads=auto
+    julia> using Pkg
+    julia> Pkg.instantiate()
+    julia> Pkg.precompile()
+    julia> exit()
+```
+It may take a few minutes to complete (\< 10 minutes). After this, we
+can generate the timings of ODE solvers written in Julia. There is a
+script to benchmark ODE solvers for the different number of trajectories
+to demonstrate scalability and performance. The script invocation and
+timings can be generated through the following:
+```bash
+    $ bash ./run_benchmark.sh -p julia -d gpu -m ode
+```
+It might take around 20 minutes to finish. The flag `-n N` can be used
+to specify the upper bound of the trajectories to benchmark. By default
+$N = 2^{24}$, where the simulation runs for $n \in 8 \le n < N$, with
+the multiples of $4$.
 
-It might take some time to precompile.
+The data will be generated in the `data/Julia` directory, with two files
+for fixed and adaptive time-stepping simulations. The first column in
+the \".txt\" file will be the number of trajectories, and the section
+column will contain the time in milliseconds.
 
-### Running benchmarks
+Additionally, to benchmark ODE solvers for other backends:
+```bash
+    $ N = $((2**24))
+    Benchmark
+    $ backend = "Metal"
+    $ ./runner_scripts/gpu/run_ode_mult_device.sh\
+    $N $backend
+```
+### Benchmarking C++ (MPGOS) ODE solvers
 
-Now we are set to benchmark the ODE solvers. To do so, simply in the console, type:
+Benchmarking MPGOS ODE solverse requires the CUDA C++ compiler to be
+installed correctly. The recommended CUDA Toolkit version is \>= 11. The
+installation can be checked through:
+```bash
+    $ nvcc
+    If the installation exists, it will return 
+    something like this:
+    nvcc fatal   : No input files specified; 
+    use option --help for more information
+```
+If `nvcc` is not found, the user needs to install CUDA Toolkit. The
+NVIDIA website lists out the resource
+[`https://developer.nvidia.com/cuda-downloads`](https://developer.nvidia.com/cuda-downloads)
+for installation.
 
-```console
-$ cd /path/to/<GPUODEBenchmarks>
-$ bash ./run_benchmark.sh -p julia -d gpu -m ode
+The MPGOS scripts are in the `GPU_ODE_MPGOS` folder. The file
+`GPU_ODE_MPGOS/Lorenz.cu` is the main executed code. However, the MPGOS
+programs can be run with the same bash script by changing the arguments
+as:
+```bash
+    $ bash ./run_benchmark.sh -p cpp -d gpu -m ode
+```
+It will generate the data files in `data/cpp` folder.
+
+### Benchmarking JAX (Diffrax) ODE solvers
+
+Benchmarking JAX-based ODE solvers require installing Python 3.9 and
+`conda`. First, we will install all the Python packages for
+benchmarking:
+```bash
+    $ conda env create -f environment.yml
+    $ conda activate venv_jax
+```
+It should install the correct version of JAX with CUDA enabled and the
+Diffrax library. The GitHub
+[`https://github.com/google/jax#installation`](https://github.com/google/jax#installation)
+is a guide to follow if the installation fails.
+
+For our purposes, we can benchmark the solvers by:
+```bash
+    $ bash ./run_benchmark.sh -p jax -d gpu -m ode
+```
+### Benchmarking PyTorch (torchdiffeq) ODE solvers
+
+Benchmarking PyTorch based ODE solvers is a similar process compared to
+JAX ones.
+```bash
+    $ conda env create -f environment.yml
+    $ conda activate venv_torch
+```
+`torchdiffeq` does not fully support vectorized maps with ODE solvers.
+To circumvent this, we extended the functionality by rewriting some
+library parts. To download it:
+```bash
+    (venv_torch)$ pip uninstall torchdiffeq
+    (venv_torch)$ pip uninstall torchdiffeq
+    (venv_torch)$ pip install git+https://github.com/
+    \utkarsh530/torchdiffeq.git@u/vmap
+```
+Then run the benchmarks by:
+```bash
+    $ bash ./run_benchmark.sh -p pytorch -d gpu -m ode
+```
+## Comparing GPU acceleration of ODEs with CPUs
+
+The benchmark suite can also be used to test the GPU acceleration of ODE
+solvers in comparison with CPUs. The process for generating simulation
+times for GPUs can be done by following the GPU section mentioned earlier. The following bash script
+allows the generation of CPU simulation times for ODEs:
+```bash
+    $ bash ./run_benchmark.sh -p julia -d cpu -m ode
+```
+The simulation times will be generated in `data/CPU`. Each of the
+workflow approximately takes around 20 minutes to finish.
+
+## Benchmarking GPU acceleration of SDEs with CPUs
+
+The SDE solvers in Julia are benchmarked by comparing them to the
+CPU-accelerated simulation. This will benchmark the linear SDE with
+three states, as described in the \"Benchmarks and case studies\"
+section. To generate simulation times for GPU, do:
+```bash
+    $ bash ./run_benchmark.sh -p julia -d gpu -m sde
+```
+We can generate the simulation times for CPU accelerated codes through:
+```bash
+    $ bash ./run_benchmark.sh -p julia -d cpu -m sde
+```
+The results will get generated in `data/SDE` and `data/CPU/SDE`, taking
+around 10 minutes to complete.
+
+## Composability with MPI
+
+Julia supports Message Passing Interface (MPI) to allow Single Program
+Multiple Data (SPMD) type parallel programming. The composability of the
+GPU ODE solvers enables seamless integration with MPI, enabling scaling
+the ODE solvers to clusters on multiple nodes.
+```julia
+    $ julia --project=./GPU_ODE_Julia
+    julia> using Pkg
+    # install MPI.jl
+    julia> Pkg.add("MPI")
+```
+An example script solving the Lorenz problem for approximately 1 billion
+parameters is available in the `MPI` folder. A SLURM-based script is
+shown below.
+```bash
+    #!/bin/bash
+    # Slurm Sbatch Options
+    # Reqeust no. of GPUs/node
+    #SBATCH --gres=gpu:volta:1
+    # 1 process per node 
+    #SBATCH -n 5 -N 5
+    #SBATCH --output="./mpi_scatter_test.log-%j"
+    # Loading the required module
+
+    # MPI.jl requires memory pool disabled
+    export JULIA_CUDA_MEMORY_POOL=none
+    export JULIA_MPI_BINARY=system
+    # Use local CUDA toolkit installation
+    export JULIA_CUDA_USE_BINARYBUILDER=false
+
+    source $HOME/.bashrc
+    module load cuda mpi
+
+    srun hostname > hostfile
+    time mpiexec julia --project=./GPU_ODE_Julia\ 
+    ./MPI/gpu_ode_mpi.jl
+```
+## Plotting Results
+
+The plotting scripts to visualize the simulation times. The scripts are
+located in `runner_scripts/plot` folder. These scripts replicates the
+benchmark figures in the paper. The benchmark suite contains the
+simulation data generated by authors, which can be used to verify the
+plots. Various benchmarks can be plotted, which are described in the
+different sections. The plotting scripts are based on Julia. As a
+preliminary step:
+```julia
+    $ cd GPUODEBenchmarks
+    $ julia project=.
+    julia> using Pkg
+    julia> Pkg.instantiate()
+    julia> Pkg.precompile()
+```
+The plot comparison between Julia, C++, JAX, and PyTorch mentioned in
+the paper can be generated by using the below command:
+```bash
+    $ julia --project=. ./runner_scripts/plot\
+    /plot_ode_comp.jl
+```
+The plot will get saved in `plots` folder.
+
+Similarly, the other plots in the paper can generated by running the
+different scripts in the folder `runner_scripts/plot`.
+```bash
+    plot performance of GPU ODE solvers 
+    with multiple backends
+    $ julia --project=. ./runner_scripts/plot\
+    /plot_mult_gpu.jl 
+    plot GPU ODE solvers comparsion with CPUs
+    $ julia --project=. ./runner_scripts/plot\
+    /plot_ode_comp.jl 
+    plot GPU SDE solvers comparsion with CPUs
+    $ julia --project=. ./runner_scripts/plot\
+    /plot_sde_comp.jl 
+    plot CRN Network sim comparsion with CPUs
+    $ julia --project=. ./runner_scripts/plot\
+    /plot_sde_crn.jl 
+```
+To plot data generated by running the scripts, specify the location of
+the `data` as the argument to the mentioned command.
+```bash
+    $ julia --project=. ./runner_scripts/plot/\
+    plot_mult_gpu.jl /path/to/data/
 ```
