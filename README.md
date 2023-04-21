@@ -61,7 +61,7 @@ minutes.
 Finally test the package by this command
 ```bash
     $ backend="CUDA"
-    $ julia --project=. test_DiffEqGPU.jl backend
+    $ julia --project=. test_DiffEqGPU.jl $backend
 ```
 Additionally, the GitHub discussion
 [`https://github.com/SciML/DiffEqGPU.jl/issues/224#issuecomment-1453769679`](https://github.com/SciML/DiffEqGPU.jl/issues/224#issuecomment-1453769679)
