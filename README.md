@@ -111,7 +111,7 @@ script to benchmark ODE solvers for the different number of trajectories
 to demonstrate scalability and performance. The script invocation and
 timings can be generated through the following:
 ```bash
-    $ bash ./run_benchmark.sh -p julia -d gpu -m ode
+    $ bash ./run_benchmark.sh -l julia -d gpu -m ode
 ```
 It might take around 20 minutes to finish. The flag `-n N` can be used
 to specify the upper bound of the trajectories to benchmark. By default
@@ -153,7 +153,7 @@ The MPGOS scripts are in the `GPU_ODE_MPGOS` folder. The file
 programs can be run with the same bash script by changing the arguments
 as:
 ```bash
-    $ bash ./run_benchmark.sh -p cpp -d gpu -m ode
+    $ bash ./run_benchmark.sh -l cpp -d gpu -m ode
 ```
 It will generate the data files in `data/cpp` folder.
 
@@ -173,7 +173,7 @@ is a guide to follow if the installation fails.
 
 For our purposes, we can benchmark the solvers by:
 ```bash
-    $ bash ./run_benchmark.sh -p jax -d gpu -m ode
+    $ bash ./run_benchmark.sh -l jax -d gpu -m ode
 ```
 ### Benchmarking PyTorch (torchdiffeq) ODE solvers
 
@@ -194,7 +194,7 @@ library parts. To download it:
 ```
 Then run the benchmarks by:
 ```bash
-    $ bash ./run_benchmark.sh -p pytorch -d gpu -m ode
+    $ bash ./run_benchmark.sh -l pytorch -d gpu -m ode
 ```
 ## Comparing GPU acceleration of ODEs with CPUs
 
@@ -203,7 +203,7 @@ solvers in comparison with CPUs. The process for generating simulation
 times for GPUs can be done by following the GPU section mentioned earlier. The following bash script
 allows the generation of CPU simulation times for ODEs:
 ```bash
-    $ bash ./run_benchmark.sh -p julia -d cpu -m ode
+    $ bash ./run_benchmark.sh -l julia -d cpu -m ode
 ```
 The simulation times will be generated in `data/CPU`. Each of the
 workflow approximately takes around 20 minutes to finish.
@@ -215,11 +215,11 @@ CPU-accelerated simulation. This will benchmark the linear SDE with
 three states, as described in the \"Benchmarks and case studies\"
 section. To generate simulation times for GPU, do:
 ```bash
-    $ bash ./run_benchmark.sh -p julia -d gpu -m sde
+    $ bash ./run_benchmark.sh -l julia -d gpu -m sde
 ```
 We can generate the simulation times for CPU accelerated codes through:
 ```bash
-    $ bash ./run_benchmark.sh -p julia -d cpu -m sde
+    $ bash ./run_benchmark.sh -l julia -d cpu -m sde
 ```
 The results will get generated in `data/SDE` and `data/CPU/SDE`, taking
 around 10 minutes to complete.
