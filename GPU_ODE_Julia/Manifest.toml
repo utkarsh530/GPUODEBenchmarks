@@ -251,10 +251,9 @@ version = "2.35.0"
 
 [[deps.DiffEqGPU]]
 deps = ["Adapt", "ChainRulesCore", "DiffEqBase", "Distributed", "DocStringExtensions", "ForwardDiff", "KernelAbstractions", "LinearAlgebra", "LinearSolve", "MuladdMacro", "Parameters", "Random", "RecursiveArrayTools", "Requires", "SciMLBase", "SimpleDiffEq", "StaticArrays", "TOML", "ZygoteRules"]
-git-tree-sha1 = "2ce35b82cb377f5b64a354aefde9360e2c10fe4c"
-pinned = true
+path = "/home/utkarsh530/.julia/dev/DiffEqGPU"
 uuid = "071ae1c0-96b5-11e9-1965-c90190d839ea"
-version = "2.1.0"
+version = "2.1.1"
 
 [[deps.DiffEqJump]]
 deps = ["ArrayInterfaceCore", "DataStructures", "DiffEqBase", "DocStringExtensions", "FunctionWrappers", "Graphs", "LinearAlgebra", "Markdown", "PoissonRandom", "Random", "RandomNumbers", "RecursiveArrayTools", "Reexport", "SciMLBase", "StaticArrays", "TreeViews", "UnPack"]
