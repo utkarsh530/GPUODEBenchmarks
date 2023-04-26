@@ -39,29 +39,29 @@ func = ODEFunction(lorenz, jac = lorenz_jac, tgrad = lorenz_tgrad)
 lorenz_prob = ODEProblem{false}(func, u0, tspan, p)
 
 function rober_f(internal_var___u, internal_var___p, t)
-    internal_var___du1 = -(internal_var___p[1]) * internal_var___u[1] +
-                         internal_var___p[3] * internal_var___u[2] *
+    internal_var___du1 = -(0.04f0) * internal_var___u[1] +
+                         internal_var___p[1] * internal_var___u[2] *
                          internal_var___u[3]
-    internal_var___du2 = (internal_var___p[1] * internal_var___u[1] -
-                          internal_var___p[2] * internal_var___u[2]^2) -
-                         internal_var___p[3] * internal_var___u[2] *
+    internal_var___du2 = (0.04f0 * internal_var___u[1] -
+                          3.0f7 * internal_var___u[2]^2) -
+                         internal_var___p[1] * internal_var___u[2] *
                          internal_var___u[3]
-    internal_var___du3 = internal_var___p[2] * internal_var___u[2]^2
-    return SVector{3}(internal_var___du1, internal_var___du2, internal_var___du3)
+    internal_var___du3 = 3.0f7 * internal_var___u[2]^2
+    return SVector{3,eltype(internal_var___u)}(internal_var___du1, internal_var___du2, internal_var___du3)
 end
 
 function rober_jac(internal_var___u, internal_var___p, t)
-    internal_var___J11 = -(internal_var___p[1])
-    internal_var___J12 = internal_var___p[3] * internal_var___u[3]
-    internal_var___J13 = internal_var___p[3] * internal_var___u[2]
-    internal_var___J21 = internal_var___p[1] * 1
-    internal_var___J22 = -2 * internal_var___p[2] * internal_var___u[2] -
-                         internal_var___p[3] * internal_var___u[3]
-    internal_var___J23 = -(internal_var___p[3]) * internal_var___u[2]
+    internal_var___J11 = -(0.04f0)
+    internal_var___J12 = internal_var___p[1] * internal_var___u[3]
+    internal_var___J13 = internal_var___p[1] * internal_var___u[2]
+    internal_var___J21 = 0.04f0 * 1
+    internal_var___J22 = -2 * 3.0f7 * internal_var___u[2] -
+                         internal_var___p[1] * internal_var___u[3]
+    internal_var___J23 = -(internal_var___p[1]) * internal_var___u[2]
     internal_var___J31 = 0 * 1
-    internal_var___J32 = 2 * internal_var___p[2] * internal_var___u[2]
+    internal_var___J32 = 2 * 3.0f7 * internal_var___u[2]
     internal_var___J33 = 0 * 1
-    return SMatrix{3, 3}(internal_var___J11, internal_var___J21, internal_var___J31,
+    return SMatrix{3, 3, eltype(internal_var___u)}(internal_var___J11, internal_var___J21, internal_var___J31,
                          internal_var___J12, internal_var___J22, internal_var___J32,
                          internal_var___J13, internal_var___J23, internal_var___J33)
 end
@@ -71,7 +71,7 @@ function rober_tgrad(u, p, t)
 end
 
 u0 = @SVector Float32[1.0, 0.0, 0.0]
-p = @SVector Float32[0.04f0, 3.0f7, 1.0f4]
+p = @SVector Float32[1.0f4]
 
 rober_prob = ODEProblem(ODEFunction(rober_f, jac = rober_jac, tgrad = rober_tgrad),
                         u0, (0.0f0, 1.0f5), p)

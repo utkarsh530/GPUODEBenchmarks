@@ -1,8 +1,6 @@
 using DiffEqGPU, BenchmarkTools, StaticArrays, SimpleDiffEq
 using CUDA
 
-device!(1)
-
 @show ARGS
 #settings
 
@@ -10,7 +8,11 @@ include(joinpath(@__DIR__,"./problems.jl"))
 
 numberOfParameters = isinteractive() ? 8192 : parse(Int64, ARGS[1])
 
-ensembleProb = EnsembleProblem(rober_prob)
+parameterList = range(0.0f0, stop = 1f4, length = numberOfParameters)
+
+prob_func = (prob, i, repeat) -> remake(rober_prob, p = @SArray [parameterList[i]])
+
+ensembleProb = EnsembleProblem(rober_prob, prob_func = prob_func)
 
 ## Building problems here only
 I = 1:numberOfParameters
@@ -25,7 +27,7 @@ else
 end
 
 ## Make them compatible with CUDA
-probs = cu(probs)
+probs = cu(probs);
 
 @info "Solving the problem"
 
