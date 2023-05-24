@@ -189,8 +189,8 @@ library parts. To download it:
 ```bash
     (venv_torch)$ pip uninstall torchdiffeq
     (venv_torch)$ pip uninstall torchdiffeq
-    (venv_torch)$ pip install git+https://github.com/
-    \utkarsh530/torchdiffeq.git@u/vmap
+    (venv_torch)$ pip install git+https://github.com/\
+    utkarsh530/torchdiffeq.git@u/vmap
 ```
 Then run the benchmarks by:
 ```bash
