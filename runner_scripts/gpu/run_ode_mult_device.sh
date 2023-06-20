@@ -13,7 +13,7 @@ while [ $a -le $max_a ]
 do
     	# Print the values
     	echo $a
-		julia --project="./GPU_ODE_Julia/" ./GPU_ODE_Julia/bench_multi_device.jl $a $backend
+		julia --project="./GPU_ODE_Julia/" ./GPU_ODE_Julia/stiff_odes/bench_multi_device.jl $a $backend
     	# increment the value
     	a=$((a*4))
 done
