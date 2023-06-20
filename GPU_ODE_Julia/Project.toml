@@ -1,6 +1,6 @@
+authors = ["Utkarsh <rajpututkarsh530@gmail.com>"]
 name = "GPU_ODE_Julia"
 uuid = "d770f587-beb8-456f-87bf-3eef33441b01"
-authors = ["Utkarsh <rajpututkarsh530@gmail.com>"]
 version = "0.1.0"
 
 [deps]

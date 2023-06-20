@@ -41,12 +41,12 @@ elif [[ $lang == "jax"  ||  $lang == "pytorch" || $lang == "cpp" ]]; then
         exit 1
     else
         echo "Benchmarking ${lang^^} ${dev^^} accelerated ensemble ${model^^} solvers..."
-        if [ -d "./data/${lang^^}" ] 
+        if [ -d "./data/${lang^^}/stiff" ] 
         then
-            rm -rf "./data/${lang^^}"/*
-            mkdir -p "./data/${lang^^}"
+            rm -rf "./data/${lang^^}"/stiff*
+            mkdir -p "./data/${lang^^}/stiff"
         else
-            mkdir -p "./data/${lang^^}"
+            mkdir -p "./data/${lang^^}/stiff"
         fi
         cmd="./runner_scripts/${dev}/run_${model}_${lang}.sh ${nmax}"
         eval "$cmd"

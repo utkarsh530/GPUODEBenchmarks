@@ -8,7 +8,7 @@ include(joinpath(@__DIR__,"./problems.jl"))
 
 numberOfParameters = isinteractive() ? 8388608 : parse(Int64, ARGS[1])
 
-parameterList = range(0.0f0, stop = 1f4, length = numberOfParameters)
+parameterList = range(10.0e0, stop = 1e4, length = numberOfParameters)
 
 prob_func = (prob, i, repeat) -> remake(rober_prob, p = @SArray [parameterList[i]])
 
@@ -28,11 +28,11 @@ end
 
 @info "Solving the problem"
 
-data = @benchmark CUDA.@sync DiffEqGPU.vectorized_map_solve($probs, Rosenbrock23(),
+data = @benchmark CUDA.@sync DiffEqGPU.vectorized_map_solve($probs, Kvaerno5(),
                                                             EnsembleGPUArray(0.0), $batch,
-                                                            true, dt = 0.001f0,
+                                                            true, dt = 0.001e0,
                                                             save_everystep = false,
-                                                            dense = false, dtmin = 1f-14)
+                                                            dense = false, reltol = 1e-8, abstol = 1e-8)
 if !isinteractive()
     open(joinpath(dirname(dirname(@__DIR__)), "data", "EnsembleGPUArray", "stiff",
                   "Julia_EnGPUArray_times_adaptive.txt"), "a+") do io
