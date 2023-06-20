@@ -1,8 +1,8 @@
 # GPUODEBenchmarks
-Comparsion of Julia's GPU based ensemble ODE solvers with other open-source implementations in C++, JAX and PyTorch. These artifacts are part of the paper:
-> Automated Translation and Accelerated Solving of Differential Equations on Multiple GPU Platforms
+Comparison of Julia's GPU-based ensemble ODE solvers with other open-source implementations with CPUs and GPU solvers from JAXX. These artifacts are part of the paper:
+> Device Agnostic GPU Parallelization of Stiff Ordinary Differential Equations
 
-**_NOTE:_**  This repository is meant to contain scripts for benchmarking existing ensemble ODE solvers. For external purposes, one can directly use the solvers from the respective libraries. 
+**_NOTE:_**  This repository is meant to contain scripts for benchmarking existing ensemble ODE solvers. One can use the solvers from the respective libraries for external purposes. 
 
 ### Performance comparison with other open-source ensemble ODE solvers
 <img src="https://github.com/utkarsh530/GPUODEBenchmarks/blob/main/paper_artifacts/figures/Lorenz_unadaptive.png" alt="drawing" width="50%"/>
