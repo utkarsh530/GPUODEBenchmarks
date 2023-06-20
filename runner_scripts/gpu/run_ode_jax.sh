@@ -5,7 +5,7 @@ while [ $a -le $max_a ]
 do
     	# Print the values
     	echo "No. of trajectories = $a"
-		python3 ./GPU_ODE_JAX/bench_diffrax.py $a	
+		python3 ./GPU_ODE_JAX/benchmark_stiff_ode_diffrax.py $a	
     	# increment the value
     	a=$((a*4))
 done
