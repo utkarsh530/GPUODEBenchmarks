@@ -1,5 +1,5 @@
 # GPUODEBenchmarks
-Comparison of Julia's GPU-based ensemble ODE solvers with other open-source implementations with CPUs and GPU solvers from JAXX. These artifacts are part of the paper:
+Comparison of Julia's GPU-based ensemble ODE solvers with other open-source implementations with CPUs and GPU solvers from JAX. These artifacts are part of the paper:
 > Device Agnostic GPU Parallelization of Stiff Ordinary Differential Equations
 
 **_NOTE:_**  This repository is meant to contain scripts for benchmarking existing ensemble ODE solvers. One can use the solvers from the respective libraries for external purposes. 
