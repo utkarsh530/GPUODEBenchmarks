@@ -81,6 +81,8 @@ def main(k1):
 # Setting up parameters for parallel simulation
 parameterList = jnp.linspace(0.0,21.0,numberOfParameters)
 
+# Test that vmap and JIT ordering does not make a noticable difference:
+# https://colab.research.google.com/drive/1d7G-O5JX31lHbg7jTzzozbo5-Gp7DBEv?usp=sharing
 
 # %%
 # Use jax.vmap to compute parallel solutions of the ODE
