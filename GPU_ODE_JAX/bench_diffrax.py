@@ -68,12 +68,12 @@ def main(k1):
 # Setting up parameters for parallel simulation
 parameterList = jnp.linspace(0.0,21.0,numberOfParameters)
 
-# Test that vmap and JIT ordering does not make a noticable difference:
+# Test that vmap and JIT ordering does not make a noticeable difference:
 # https://colab.research.google.com/drive/1d7G-O5JX31lHbg7jTzzozbo5-Gp7DBEv?usp=sharing
 
 # %%
 # Use jax.vmap to compute parallel solutions of the ODE
-res = timeit.repeat(lambda: jax.vmap(main)(parameterList),repeat = 100,number = 1)
+res = timeit.repeat(lambda: main(parameterList),repeat = 100,number = 1)
 
 best_time  = min(res)*1000
 print("{:} ODE solves with fixed time-stepping completed in {:.1f} ms".format(numberOfParameters, best_time))
@@ -122,7 +122,7 @@ import timeit
 # %%
 
 
-res = timeit.repeat(lambda: jax.vmap(main)(parameterList),repeat = 100,number = 1)
+res = timeit.repeat(lambda: main(parameterList),repeat = 100,number = 1)
 
 
 # %%
