@@ -43,6 +43,7 @@ class Lorenz(eqx.Module):
 # %%
 # JIT compilation of ODE solver
 @jax.jit
+@jax.vmap
 def main(k1):
     lorenz = Lorenz(k1)
     terms = diffrax.ODETerm(lorenz)
@@ -62,20 +63,6 @@ def main(k1):
         y0,
     )
     return sol
-
-# %%
-# Uncomment for smoke test
-# main(28.0)
-
-# start = time.time()
-# sol = main(28.0)
-# end = time.time()
-
-# print("Results:")
-# for ti, yi in zip(sol.ts, sol.ys):
-#     print(f"t={ti.item()}, y={yi.tolist()}")
-# print(f"Took {sol.stats['num_steps']} steps in {end - start} seconds.")
-
 
 # %%
 # Setting up parameters for parallel simulation
@@ -102,6 +89,7 @@ file.close()
 # %%
 # Repeat the same for adaptive time-stepping
 @jax.jit
+@jax.vmap
 def main(k1):
     lorenz = Lorenz(k1)
     terms = diffrax.ODETerm(lorenz)

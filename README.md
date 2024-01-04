@@ -175,6 +175,11 @@ For our purposes, we can benchmark the solvers by:
 ```bash
     $ bash ./run_benchmark.sh -l jax -d gpu -m ode
 ```
+
+#### A note on JIT ordering in JAX
+
+The JIT ordering JAX matters and sometimes can enhance performance if done correctly. We have tested that vmap and JIT ordering does not make a noticable difference in our case. The results are available at this [Colab notebook](https://colab.research.google.com/drive/1d7G-O5JX31lHbg7jTzzozbo5-Gp7DBEv?usp=sharing).
+
 ### Benchmarking PyTorch (torchdiffeq) ODE solvers
 
 Benchmarking PyTorch based ODE solvers is a similar process compared to
